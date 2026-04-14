@@ -1,0 +1,5 @@
+# hlquery Python Client
+# Core client usage has no external dependencies - uses Python standard library only
+# Optional PDF support:
+#   pip install PyPDF2
+# Python >= 3.6 required
