@@ -7,8 +7,6 @@
 **A modular Python client library for hlquery, designed with a familiar and intuitive API structure.**
 
 [![Twitter Follow](https://img.shields.io/twitter/url/https/x.com/hlquery.svg?style=social&label=Follow%20%40hlquery)](https://x.com/hlquery)
-[![Linux Build](https://github.com/hlquery/python-api/workflows/Linux%20build/badge.svg)](https://github.com/hlquery/python-api/actions)
-[![macOS Build](https://github.com/hlquery/python-api/workflows/macOS%20Build/badge.svg)](https://github.com/hlquery/python-api/actions)
 [![Commit Activity](https://img.shields.io/github/commit-activity/m/hlquery/python-api)](https://github.com/hlquery/python-api/pulse)
 [![GitHub stars](https://img.shields.io/github/stars/hlquery/python-api?style=social)](https://github.com/hlquery/python-api/stargazers)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
@@ -293,59 +291,6 @@ The generated document includes:
 
 CSV parsing uses the Python standard library only. Cells are flattened into plain text, and commas are replaced with spaces before indexing to satisfy hlquery field restrictions.
 
-#### Field Value Character Restrictions
-
-**Important**: String field values have character restrictions:
-
-**❌ Invalid Characters** (not allowed):
-- Commas (`,`) - Reserved for internal parsing
-
-** Valid Characters** (allowed):
-- Letters, numbers, underscores (`_`), hyphens (`-`), spaces, periods, and most punctuation (except commas)
-
-**Examples:**
-
- **Valid:**
-```python
-doc = {
-    'id': 'doc1',
-    'tags': 'tag1_tag2_tag3',        #  Use underscores
-    'cast': 'Actor1_Actor2',          #  Use underscores
-    'genre': 'Action_Drama'            #  Use underscores
-}
-
-# Or use arrays for multiple values:
-doc2 = {
-    'id': 'doc2',
-    'tags': ['tag1', 'tag2', 'tag3']  #  Arrays are fine
-}
-```
-
-❌ **Invalid:**
-```python
-doc = {
-    'id': 'doc1',
-    'tags': 'tag1,tag2,tag3',         # ❌ Commas not allowed
-    'cast': 'Actor1, Actor2',         # ❌ Commas not allowed
-    'genre': 'Action,Drama'           # ❌ Commas not allowed
-}
-```
-
-**Workarounds:**
-- Use underscores (`_`) or spaces instead of commas
-- Use arrays for multiple values: `tags: ['tag1', 'tag2', 'tag3']`
-- Use separate fields if you need comma-separated data
-
-#### Convenience Methods
-
-```python
-# List documents
-docs = client.list_documents('collection', {'offset': 0, 'limit': 10})
-
-# Get document
-doc = client.get_document('collection', 'doc_id')
-```
-
 ### Search API
 
 #### Using the Search API Object
@@ -444,92 +389,6 @@ Cat API for listing collections and system information.
 ```python
 indices = client.cat('indices', {'limit': 10})
 ```
-
-## Response Handling
-
-All methods return a `Response` object:
-
-```python
-response = client.health()
-
-# Check status
-if response.is_success():
-    # Handle success
-    body = response.get_body()
-
-# Or check status code
-if response.get_status_code() == 200:
-    # Handle success
-
-# Get error
-if response.is_error():
-    error = response.get_error()
-    print(f"Error: {error}")
-
-# Convert to dictionary (for backward compatibility)
-result_dict = response.to_dict()
-# Returns: {'status': 200, 'body': {...}}
-```
-
-## Error Handling
-
-The client throws exceptions for errors:
-
-```python
-from lib import Client
-from lib.exceptions import RequestException, AuthenticationException, ValidationException
-
-try:
-    result = client.search('collection', {'q': 'test'})
-    
-    if result.is_error():
-        # Handle HTTP error
-        print(f"Error: {result.get_error()}")
-except RequestException as e:
-    # Handle request errors
-    print(f"Request failed: {e}")
-    print(f"Status: {e.status_code}")
-except AuthenticationException as e:
-    # Handle authentication errors
-    print(f"Auth failed: {e}")
-except ValidationException as e:
-    # Handle validation errors
-    print(f"Validation failed: {e}")
-except Exception as e:
-    # Handle other errors
-    print(f"Error: {e}")
-```
-
-## Examples
-
-### Complete Example
-
-See `example.py` for a complete example demonstrating:
-- Health checks
-- Authentication (with and without token)
-- Listing collections
-- Getting collection fields
-- Listing documents with pagination
-- Multiple search methods
-- Dynamic authentication
-
-Run the example:
-
-```bash
-# Without authentication
-python example.py
-
-# With authentication
-python example.py your_token_here
-```
-
-### Organized Examples
-
-Check the `examples/` directory for organized examples:
-- `basic_usage.py` - Basic operations
-- `search.py` - Search patterns
-- `collections.py` - Collection management
-- `documents.py` - Document CRUD
 
 
 ## Requirements
