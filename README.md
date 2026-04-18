@@ -95,19 +95,18 @@ client.set_auth_token('your_token_here', 'api-key')
 
 ### Reduce Text Example
 
-If the `ai_search` module is enabled, you can use the raw request helper to ask hlquery to summarize a stored document:
+You can use the raw request helper to call custom module routes directly:
 
 ```python
-summary = client.execute_request(
+module_response = client.execute_request(
     "GET",
-    "/modules/ai_search/talk",
+    "/modules/<name>/<route>",
     query_params={
-        "q": "summarize onboarding guide in docs",
-        "run": "true",
+        "q": "example query",
     },
 )
 
-print(summary.get_body())
+print(module_response.get_body())
 ```
 
 ## Architecture
