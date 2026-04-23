@@ -36,6 +36,7 @@ Core client usage has no dependencies beyond Python's standard library. PDF pars
 Simply import the client:
 
 ```python
+import os
 from lib import Client
 ```
 
@@ -63,7 +64,7 @@ CSV support is built in and does not require any extra package.
 from lib import Client
 
 # Initialize client
-client = Client('http://localhost:9200')
+client = Client(os.environ.get('HLQ_BASE_URL') or os.environ.get('HLQUERY_BASE_URL') or 'http://localhost:9200')
 
 # Health check
 health = client.health()
@@ -79,14 +80,15 @@ if collections.is_success():
 ### With Authentication
 
 ```python
+import os
 # Method 1: Set token in constructor
-client = Client('http://localhost:9200', {
+client = Client(os.environ.get('HLQ_BASE_URL') or os.environ.get('HLQUERY_BASE_URL') or 'http://localhost:9200', {
     'token': 'your_token_here',
     'auth_method': 'bearer'  # or 'api-key'
 })
 
 # Method 2: Set token dynamically
-client = Client('http://localhost:9200')
+client = Client(os.environ.get('HLQ_BASE_URL') or os.environ.get('HLQUERY_BASE_URL') or 'http://localhost:9200')
 client.set_auth_token('your_token_here', 'bearer')
 
 # Method 3: Use X-API-Key

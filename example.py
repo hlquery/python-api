@@ -21,10 +21,11 @@ Usage: python example.py [command] [token]
 
 import sys
 import json
+import os
 from lib import Client
 
 # Configuration
-BASE_URL = 'http://localhost:9200'
+BASE_URL = os.environ.get('HLQ_BASE_URL') or os.environ.get('HLQUERY_BASE_URL') or 'http://localhost:9200'
 
 # Parse command line arguments
 COMMAND = 'all'

@@ -6,6 +6,7 @@ Copyright (C) 2021-2026, Carlos F. Ferry <carlos.ferry@gmail.com>
 This file is part of hlquery, released under the BSD License version 3.
 """
 
+import os
 from urllib.parse import urlparse
 
 
@@ -13,7 +14,7 @@ class Config:
     """Configuration utility class"""
     
     DEFAULT_TIMEOUT = 30
-    DEFAULT_BASE_URL = 'http://localhost:9200'
+    DEFAULT_BASE_URL = os.environ.get('HLQ_BASE_URL') or os.environ.get('HLQUERY_BASE_URL') or 'http://localhost:9200'
     DEFAULT_AUTH_METHOD = 'bearer'
     
     @staticmethod
