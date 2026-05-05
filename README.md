@@ -9,27 +9,29 @@
 
 [![Follow hlquery](https://img.shields.io/badge/Follow-%40hlquery-blue?logo=x&logoColor=white)](https://x.com/hlquery)
 [![Commit Activity](https://img.shields.io/github/commit-activity/m/hlquery/hlquery)](https://github.com/hlquery/python-api/pulse)
-[![hlquery](https://img.shields.io/badge/GitHub-hlquery-181717?logo=github&logoColor=white)](https://github.com/hlquery/hlquery/stargazers)
+[![python-api](https://img.shields.io/badge/Follow-%40hlquery-blue?logo=x&logoColor=white)](https://github.com/hlquery/python-api/stargazers)
+[![GitHub](https://img.shields.io/badge/GitHub-hlquery-blue?logo=github&logoColor=white)](https://github.com/hlquery/hlquery/stargazers)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 </div>
 
-# hlquery Python API Client
+### hlquery Python API Client
 
 
-## Features
+### Features
 
 -  **Modular Architecture**: Clean separation of concerns with organized classes
 -  **Intuitive API**: Familiar and easy-to-use structure
 -  **Authentication Support**: Bearer token and X-API-Key authentication
 -  **Flexible Parameters**: Support for multiple parameter formats
 -  **Auto-detection**: Automatically detects searchable fields when not specified
+-  **SAM Support**: Search, status, and history helpers for SAM endpoints
 -  **Type-safe Responses**: Response objects with helper methods
 -  **Comprehensive Validation**: Input validation for all operations
 -  **No External Dependencies**: Uses Python's built-in `urllib` and `json` modules
 -  **Professional Structure**: Well-organized and modular architecture
 
-## Installation
+### Installation
 
 Core client usage has no dependencies beyond Python's standard library. PDF parsing uses the optional `PyPDF2` package.
 
@@ -77,6 +79,39 @@ if collections.is_success():
     print(f"Found {len(body.get('collections', []))} collections")
 ```
 
+### Example API Responses
+
+Captured from a local `http://localhost:9200` server.
+
+`client.health().get_body()`:
+
+```json
+{
+  "server": "hlquery",
+  "status": "ok",
+  "version": "1.0"
+}
+```
+
+`client.search_api().search('readme_demo', {'q': 'search', 'query_by': 'title,content', 'limit': 10}).get_body()`:
+
+```json
+{
+  "hits": [
+    {
+      "document": {
+        "id": "doc-2",
+        "title": "Search Engineering Notes"
+      },
+      "highlights": {
+        "title": "<em>Search</em> Engineering Notes"
+      }
+    }
+  ],
+  "found": 1
+}
+```
+
 ### With Authentication
 
 ```python
@@ -111,45 +146,29 @@ module_response = client.execute_request(
 print(module_response.get_body())
 ```
 
-## Architecture
+### SAM Example
 
-### Core Classes
+Use the SAM helper to search against generated SAM terms and inspect status/history:
 
-#### `Client`
-Main client class that provides access to all API operations.
+```python
+from lib import Client
 
-#### `Request`
-Handles HTTP requests, authentication, and error handling.
+client = Client('http://localhost:9200')
+sam = client.sam()
 
-#### `Response`
-Response wrapper with helper methods:
-- `get_status_code()` - Get HTTP status code
-- `get_body()` - Get response body
-- `is_success()` - Check if request was successful
-- `is_error()` - Check if request failed
-- `get_error()` - Get error message
-- `to_dict()` - Convert to dictionary format (for backward compatibility)
+status = sam.status('music')
+print(status.get_body())
 
-#### API Classes
+results = sam.search('music', 'queen of pop', {
+    'limit': 5,
+})
+print(results.get_body())
 
-`Collections` manages collections.
-`Documents` handles document CRUD and import.
-`Search` handles search requests and flexible parameter input.
+history = sam.history('music', 5)
+print(history.get_body())
+```
 
-### Utilities
-
-`Auth` provides token helpers and validation.
-`Config` handles defaults and URL/config normalization.
-`Validator` validates request input before it is sent.
-
-### Exceptions
-
-`HlqueryException` is the base type.
-Use `AuthenticationException`, `RequestException`, `ValidationException`, `CollectionException`, `DocumentException`, and `SearchException` for specific failures.
-
-## API Methods
-
-### System APIs
+### API Methods
 
 #### `health()`
 Check server health status.
@@ -209,6 +228,26 @@ collection = client.get_collection('my_collection')
 
 # Get collection fields (formatted)
 fields = client.get_collection_fields('my_collection')
+```
+
+### SAM API
+
+#### Using the SAM API Object
+
+```python
+sam = client.sam()
+
+result = sam.search('music', 'queen of pop', {'limit': 10})
+status = sam.status('music')
+history = sam.history('music', 10)
+```
+
+#### Convenience Methods
+
+```python
+result = client.sam_search('music', 'queen of pop', {'limit': 10})
+status = client.sam_status('music')
+history = client.sam_history('music', 10)
 ```
 
 ### Documents API
@@ -407,11 +446,3 @@ pip install -e .
 ```
 
 Or add to your `requirements.txt`:
-
-```
-# No external dependencies required
-```
-
-## Architecture
-
-For detailed information about the library architecture, design decisions, and internal structure, see [STRUCTURE.md](STRUCTURE.md).

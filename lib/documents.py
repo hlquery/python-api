@@ -1,0 +1,92 @@
+"""
+hlquery Python Client - Documents API
+"""
+
+from .service import Service
+from utils.validator import Validator
+
+
+class Documents(Service):
+    """Documents API helper."""
+
+    def list(self, collection_name, params=None):
+        Validator.validate_collection_name(collection_name)
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents",
+            query_params=params or {},
+        )
+
+    def get(self, collection_name, document_id):
+        Validator.validate_collection_name(collection_name)
+        Validator.validate_document_id(document_id)
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/{urllib_parse_quote(document_id)}",
+        )
+
+    def add(self, collection_name, document):
+        Validator.validate_collection_name(collection_name)
+        Validator.validate_document_fields(document)
+
+        if isinstance(document, dict) and "id" in document:
+            Validator.validate_document_id(document["id"])
+
+        return self.client.execute_request(
+            "POST",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents",
+            body=document,
+        )
+
+    def update(self, collection_name, document_id, document):
+        Validator.validate_collection_name(collection_name)
+        Validator.validate_document_id(document_id)
+        Validator.validate_document_fields(document)
+        return self.client.execute_request(
+            "PATCH",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/{urllib_parse_quote(document_id)}",
+            body=document,
+        )
+
+    def delete(self, collection_name, document_id):
+        Validator.validate_collection_name(collection_name)
+        Validator.validate_document_id(document_id)
+        return self.client.execute_request(
+            "DELETE",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/{urllib_parse_quote(document_id)}",
+        )
+
+    def import_documents(self, collection_name, documents, params=None):
+        Validator.validate_collection_name(collection_name)
+
+        for document in documents or []:
+            Validator.validate_document_fields(document)
+
+        return self.client.execute_request(
+            "POST",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/import",
+            body=documents or [],
+            query_params=params or {},
+        )
+
+    def delete_by_filter(self, collection_name, params):
+        Validator.validate_collection_name(collection_name)
+        return self.client.execute_request(
+            "DELETE",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents",
+            query_params=params or {},
+        )
+
+    def search(self, collection_name, params):
+        Validator.validate_collection_name(collection_name)
+        Validator.validate_search_params(params or {})
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/search",
+            query_params=params or {},
+        )
+
+
+def urllib_parse_quote(value):
+    from urllib.parse import quote
+    return quote(str(value), safe="")
