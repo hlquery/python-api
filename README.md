@@ -29,9 +29,7 @@ It is intended for scripts, services, notebooks, and internal tools that want a 
 
 ### Why choose it over raw HTTP?
 
-- Less repetitive request and JSON parsing code.
-- Predictable response helpers.
-- Easier to keep application-level hlquery calls readable.
+Choose the Python client over raw HTTP when you want less repetitive request and JSON parsing code, predictable response helpers, and application-level hlquery calls that remain easy to read.
 
 ### Install
 
@@ -133,8 +131,23 @@ module_response = client.execute_request(
 print(module_response.get_body())
 ```
 
-### Notes
+### Contributing
 
-- CSV support is built in.
-- If `q` is set and `query_by` is omitted, the client can infer fields from collection metadata in supported flows.
-- See `etc/api/python/examples/` for focused examples.
+We welcome contributions from the community! All contributions must be released under the BSD 3-Clause license.
+
+### How to Contribute
+
+- Check existing [issues](https://github.com/hlquery/hlquery/issues) or create new ones
+- Contribute to client libraries (Node.js, Go, Java, Python, PHP, Ruby, Rust, Perl, C++)
+- Test and report bugs
+- Improve documentation
+
+### Community
+
+- 📖 [Documentation](https://docs.hlquery.com)
+- 🐦 [X (Twitter)](https://x.com/hlquery)
+- 📦 [GitHub](https://github.com/hlquery/hlquery)
+
+### License
+
+hlquery is licensed under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause).
