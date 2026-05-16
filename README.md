@@ -16,7 +16,7 @@
 
 ### What is the hlquery Python API?
 
-The hlquery Python API is the official Python client for hlquery. It wraps the server's HTTP interface in a small modular client with helpers for collections, documents, search, SQL, and SAM.
+The hlquery Python API is the official Python client for [hlquery](https://github.com/hlquery/hlquery). It wraps the server's HTTP interface in a small modular client with helpers for collections, documents, search, SQL, and SAM.
 
 It is intended for scripts, services, notebooks, and internal tools that want a cleaner integration layer than manual `urllib` or `requests` code.
 
