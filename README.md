@@ -8,8 +8,8 @@
 
 [![Follow hlquery](https://img.shields.io/badge/Follow-%40hlquery-blue?logo=x&logoColor=white&labelColor=000000)](https://x.com/hlquery)
 [![Python build](https://img.shields.io/badge/Python%20build-passing-brightgreen?logo=node.js&logoColor=white&labelColor=000000)](https://github.com/hlquery/python-api/actions/workflows/ci.yml)
-[![python-api](https://img.shields.io/badge/GitHub-python--api-purple?logo=github&logoColor=white&labelColor=000000)](https://github.com/hlquery/python-api/stargazers)
-[![hlquery](https://img.shields.io/badge/GitHub-hlquery-blue?logo=github&logoColor=white&labelColor=000000)](https://github.com/hlquery/hlquery/stargazers)
+[![python-api](https://img.shields.io/badge/GitHub-python--api-purple?logo=github&logoColor=white&labelColor=000000)](https://github.com/hlquery/python-api/)
+[![hlquery](https://img.shields.io/badge/GitHub-hlquery-blue?logo=github&logoColor=white&labelColor=000000)](https://github.com/hlquery/hlquery/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-a35a0f?logo=open-source-initiative&logoColor=white&labelColor=000000)](https://opensource.org/licenses/BSD-3-Clause)
 
 
@@ -23,14 +23,7 @@ It is intended for scripts, services, notebooks, and internal tools that want a 
 
 ### Why use it?
 
-- Simple client layout with convenience methods and grouped APIs.
-- Built-in auth handling.
-- Standard-library-first design for the core client.
-- Coverage for SAM and raw custom module routes.
-
-### Why choose it over raw HTTP?
-
-Choose the Python client over raw HTTP when you want less repetitive request and JSON parsing code, predictable response helpers, and application-level hlquery calls that remain easy to read.
+Use the Python client when you want a simple client layout with convenience methods, grouped APIs, and built-in auth handling. The core client keeps a standard-library-first design while still covering SAM and raw custom module routes.
 
 ### Install
 
