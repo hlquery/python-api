@@ -1,5 +1,5 @@
 """
-hlquery Python Client - Optional PDF parsing helper
+hlquery Python Client - PDF parsing helper
 
 Copyright (C) 2021-2026, Carlos F. Ferry <carlos.ferry@gmail.com>
 
@@ -18,7 +18,7 @@ except (ImportError, ValueError):
 
 
 class PDFParser:
-    """Optional helper for parsing local PDF files into hlquery documents."""
+    """Helper for parsing local PDF files into hlquery documents."""
 
     @staticmethod
     def parse_file(file_path, options=None):
@@ -158,6 +158,5 @@ class PDFParser:
             return PdfReader
         except ImportError as error:
             raise ValidationException(
-                "PDF parsing requires the optional dependency `PyPDF2`. "
-                "Install it with `pip install PyPDF2`."
+                "PDF parsing requires `PyPDF2`. Install the package dependencies with `pip install -e .`."
             ) from error

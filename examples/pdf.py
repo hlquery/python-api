@@ -2,7 +2,6 @@
 PDF Parsing Example
 
 Usage:
-    pip install PyPDF2
     python examples/pdf.py <collection> <pdf-path> [token]
 """
 

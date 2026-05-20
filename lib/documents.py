@@ -3,6 +3,7 @@ hlquery Python Client - Documents API
 """
 
 from .service import Service
+from utils.pdf_parser import PDFParser
 from utils.validator import Validator
 
 
@@ -37,6 +38,13 @@ class Documents(Service):
             f"/collections/{urllib_parse_quote(collection_name)}/documents",
             body=document,
         )
+
+    def add_pdf(self, collection_name, file_path, options=None):
+        Validator.validate_collection_name(collection_name)
+
+        parsed = PDFParser.parse_file(file_path, options or {})
+        document = PDFParser.build_document_from_parsed_pdf(parsed, options or {})
+        return self.add(collection_name, document)
 
     def update(self, collection_name, document_id, document):
         Validator.validate_collection_name(collection_name)

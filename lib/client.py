@@ -104,6 +104,9 @@ class Client:
     def get_document(self, collection_name, document_id):
         return self.documents_api().get(collection_name, document_id)
 
+    def add_pdf_document(self, collection_name, file_path, options=None):
+        return self.documents_api().add_pdf(collection_name, file_path, options or {})
+
     def search(self, collection_name, params):
         return self.search_api().search(collection_name, params)
 

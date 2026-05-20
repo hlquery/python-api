@@ -33,9 +33,6 @@ setup(
     ],
     python_requires=">=3.6",
     install_requires=[
-        # Core client usage uses the Python standard library only.
+        "PyPDF2",
     ],
-    extras_require={
-        "pdf": ["PyPDF2"],
-    },
 )

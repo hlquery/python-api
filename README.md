@@ -23,26 +23,53 @@ It is intended for scripts, services, notebooks, and internal tools that want a 
 
 ### Why use it?
 
-Use the Python client when you want a simple client layout with convenience methods, grouped APIs, and built-in auth handling. The core client keeps a standard-library-first design while still covering SAM and raw custom module routes.
+Use the Python client when you want a simple client layout with convenience methods, grouped APIs, and built-in auth handling. The client covers collections, documents, search, SQL, SAM, raw custom module routes, and direct PDF ingestion through one package.
 
 ### Install
 
-Core client usage has no dependencies beyond Python's standard library.
-
-```python
-from lib import Client
-```
-
-Editable local install:
+Install the package locally to get the client and its integrated PDF reader dependency:
 
 ```bash
 pip install -e .
 ```
 
-Optional PDF parsing:
+You can also install the dependency list directly:
 
 ```bash
-pip install PyPDF2
+pip install -r requirements.txt
+```
+
+```python
+from lib import Client
+```
+
+### PDF Documents
+
+PDF support is installed with the package. Use `add_pdf` when you want the client to read a local PDF, extract text and metadata, build a document, and submit it to hlquery in one call:
+
+```python
+from lib import Client
+
+client = Client('http://localhost:9200')
+
+response = client.documents_api().add_pdf('books', './manual.pdf', {
+    'document': {
+        'source_type': 'pdf'
+    }
+})
+
+print(response.get_body())
+```
+
+The helper fills `title`, `content`, `file_name`, `file_path`, `mime_type`, `page_count`, and PDF metadata fields by default. You can override the generated id, title, content field, or metadata behavior through the options argument:
+
+```python
+response = client.add_pdf_document('books', './manual.pdf', {
+    'id': 'manual_v1',
+    'title': 'Product Manual',
+    'content_field': 'body',
+    'include_metadata': False,
+})
 ```
 
 ### Quick Start
