@@ -6,7 +6,6 @@ from .collections import Collections
 from .documents import Documents
 from .exceptions import ValidationException
 from .request import Request
-from .sam import SAM
 from .search import Search
 from .sql import SQL
 from utils.auth import Auth
@@ -36,7 +35,6 @@ class Client:
         self._documents = None
         self._search = None
         self._sql = None
-        self._sam = None
 
     def set_auth_token(self, token, auth_method="bearer"):
         if not Auth.is_valid_token(token):
@@ -84,11 +82,6 @@ class Client:
             self._sql = SQL(self)
         return self._sql
 
-    def sam(self):
-        if self._sam is None:
-            self._sam = SAM(self)
-        return self._sam
-
     def list_collections(self, offset=0, limit=10):
         return self.collections_api().list(offset, limit)
 
@@ -109,12 +102,3 @@ class Client:
 
     def search(self, collection_name, params):
         return self.search_api().search(collection_name, params)
-
-    def sam_search(self, collection_name, query, params=None):
-        return self.sam().search(collection_name, query, params or {})
-
-    def sam_status(self, collection_name=None, params=None):
-        return self.sam().status(collection_name, params or {})
-
-    def sam_history(self, collection_name=None, limit=100, params=None):
-        return self.sam().history(collection_name, limit, params or {})

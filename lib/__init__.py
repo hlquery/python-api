@@ -7,7 +7,6 @@ from .collections import Collections
 from .documents import Documents
 from .exceptions import HlqueryError, ValidationException
 from .response import Response
-from .sam import SAM
 from .search import Search
 from .sql import SQL
 
@@ -17,7 +16,6 @@ __all__ = [
     "Documents",
     "HlqueryError",
     "Response",
-    "SAM",
     "Search",
     "SQL",
     "ValidationException",
