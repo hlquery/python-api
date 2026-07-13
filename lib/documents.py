@@ -51,7 +51,7 @@ class Documents(Service):
         Validator.validate_document_id(document_id)
         Validator.validate_document_fields(document)
         return self.client.execute_request(
-            "PATCH",
+            "PUT",
             f"/collections/{urllib_parse_quote(collection_name)}/documents/{urllib_parse_quote(document_id)}",
             body=document,
         )

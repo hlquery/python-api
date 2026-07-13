@@ -33,11 +33,15 @@ class Collections(Service):
 
     def get_fields(self, collection_name):
         Validator.validate_collection_name(collection_name)
-        return self.client.execute_request("GET", f"/collections/{urllib_parse_quote(collection_name)}/fields")
+        return self.get(collection_name)
 
     def update(self, collection_name, schema):
         Validator.validate_collection_name(collection_name)
-        return self.client.execute_request("PATCH", f"/collections/{urllib_parse_quote(collection_name)}", body=schema or {})
+        return self.client.execute_request(
+            "POST",
+            f"/collections/{urllib_parse_quote(collection_name)}/update",
+            body=schema or {},
+        )
 
     def delete(self, collection_name):
         Validator.validate_collection_name(collection_name)
