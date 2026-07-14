@@ -16,5 +16,11 @@ class SQL(Service):
     def exec(self, sql):
         return self.client.execute_request("POST", "/sql", body={"exec": str(sql)})
 
+    def execute(self, sql):
+        return self.exec(sql)
+
+    def raw(self, sql, query_params=None):
+        return self.query(sql, query_params)
+
     def search(self, collection_name, sql, params=None):
         return self.client.search_api().sql(collection_name, sql, params or {})

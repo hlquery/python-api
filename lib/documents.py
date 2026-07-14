@@ -77,6 +77,9 @@ class Documents(Service):
             query_params=params or {},
         )
 
+    def bulk_import(self, collection_name, documents, params=None):
+        return self.import_documents(collection_name, documents, params)
+
     def delete_by_filter(self, collection_name, params):
         Validator.validate_collection_name(collection_name)
         return self.client.execute_request(
@@ -85,12 +88,90 @@ class Documents(Service):
             query_params=params or {},
         )
 
+    def context(self, collection_name, document_id, params=None):
+        Validator.validate_collection_name(collection_name)
+        Validator.validate_document_id(document_id)
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/{urllib_parse_quote(document_id)}/context",
+            query_params=params or {},
+        )
+
+    def update_by_query(self, collection_name, payload):
+        Validator.validate_collection_name(collection_name)
+        return self.client.execute_request(
+            "POST",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/_update_by_query",
+            body=payload or {},
+        )
+
+    def delete_by_query(self, collection_name, payload):
+        Validator.validate_collection_name(collection_name)
+        return self.client.execute_request(
+            "POST",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/_delete_by_query",
+            body=payload or {},
+        )
+
     def search(self, collection_name, params):
         Validator.validate_collection_name(collection_name)
         Validator.validate_search_params(params or {})
         return self.client.execute_request(
             "GET",
             f"/collections/{urllib_parse_quote(collection_name)}/documents/search",
+            query_params=params or {},
+        )
+
+    def search_post(self, collection_name, payload):
+        Validator.validate_collection_name(collection_name)
+        return self.client.execute_request(
+            "POST",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/search",
+            body=payload or {},
+        )
+
+    def facets(self, collection_name, params=None, method="GET"):
+        Validator.validate_collection_name(collection_name)
+        method = str(method).upper()
+        if method == "POST":
+            return self.client.execute_request(
+                "POST",
+                f"/collections/{urllib_parse_quote(collection_name)}/documents/facet_counts",
+                body=params or {},
+            )
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/facet_counts",
+            query_params=params or {},
+        )
+
+    def export(self, collection_name, params=None, method="GET"):
+        Validator.validate_collection_name(collection_name)
+        method = str(method).upper()
+        if method == "POST":
+            return self.client.execute_request(
+                "POST",
+                f"/collections/{urllib_parse_quote(collection_name)}/documents/export",
+                body=params or {},
+            )
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/export",
+            query_params=params or {},
+        )
+
+    def maybe(self, collection_name, params=None, method="GET"):
+        Validator.validate_collection_name(collection_name)
+        method = str(method).upper()
+        if method == "POST":
+            return self.client.execute_request(
+                "POST",
+                f"/collections/{urllib_parse_quote(collection_name)}/documents/maybe",
+                body=params or {},
+            )
+        return self.client.execute_request(
+            "GET",
+            f"/collections/{urllib_parse_quote(collection_name)}/documents/maybe",
             query_params=params or {},
         )
 

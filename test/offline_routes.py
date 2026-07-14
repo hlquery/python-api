@@ -61,6 +61,31 @@ class PythonClientOfflineRouteTests(unittest.TestCase):
         self.assertEqual(result["path"], "/sql")
         self.assertEqual(result["body"], {"exec": "CREATE COLLECTION books"})
 
+    def test_collection_language_uses_lang_route(self):
+        result = self.client.collections_api().language("books")
+
+        self.assertEqual(result["method"], "GET")
+        self.assertEqual(result["path"], "/collections/books/lang")
+
+    def test_update_by_query_uses_underscore_route(self):
+        result = self.client.documents_api().update_by_query("books", {"filter_by": "id:=1"})
+
+        self.assertEqual(result["method"], "POST")
+        self.assertEqual(result["path"], "/collections/books/documents/_update_by_query")
+        self.assertEqual(result["body"], {"filter_by": "id:=1"})
+
+    def test_resource_group_routes(self):
+        self.assertEqual(self.client.synonyms_api().list_global()["path"], "/synonyms/global")
+        self.assertEqual(self.client.stopwords_api().list_global_stopword_set()["path"], "/stopword_sets/global")
+        self.assertEqual(self.client.overrides_api().get_curation("books", "featured")["path"], "/collections/books/curations/featured")
+        self.assertEqual(self.client.aliases_api().list_collection("books")["path"], "/collections/books/aliases")
+        self.assertEqual(self.client.modules_api().syntax("demo")["path"], "/modules/demo/syntax")
+        self.assertEqual(self.client.presets_api().get("default")["path"], "/presets/default")
+        self.assertEqual(self.client.keys_api().get("key_1")["path"], "/keys/key_1")
+        self.assertEqual(self.client.users_api().get("admin")["path"], "/users/admin")
+        self.assertEqual(self.client.links_api().ping()["path"], "/links/ping")
+        self.assertEqual(self.client.analytics_api().click({"collection": "books", "doc_id": "1"})["path"], "/analytics/click")
+
 
 if __name__ == "__main__":
     unittest.main()
