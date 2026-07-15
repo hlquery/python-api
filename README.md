@@ -30,13 +30,13 @@ Use the Python client when you want a simple client layout with convenience meth
 Install the package locally to get the client and its integrated PDF reader dependency:
 
 ```bash
-pip install -e .
+$ pip install -e .
 ```
 
 You can also install the dependency list directly:
 
 ```bash
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ```python
@@ -49,7 +49,6 @@ PDF support is installed with the package. Use `add_pdf` when you want the clien
 
 ```python
 from lib import Client
-
 client = Client('http://localhost:9200')
 
 response = client.documents_api().add_pdf('books', './manual.pdf', {
@@ -115,22 +114,6 @@ print(rows.get_body())
 print(books.get_body())
 ```
 
-### Reduce Text Example
-
-Use the raw request helper for custom module routes:
-
-```python
-module_response = client.execute_request(
-    "GET",
-    "/modules/<name>/<route>",
-    query_params={
-        "q": "example query",
-    },
-)
-
-print(module_response.get_body())
-```
-
 ### Contributing
 
 We welcome contributions from the community! All contributions must be released under the BSD 3-Clause license.
@@ -145,10 +128,10 @@ We welcome contributions from the community! All contributions must be released 
 
 ### Community
 
-- [Documentation](https://docs.hlquery.com)
-- [X (Twitter)](https://x.com/hlquery)
-- [Python API GitHub](https://github.com/hlquery/python-api)
-- [hlquery GitHub](https://github.com/hlquery/hlquery)
+- 📖 [Documentation](https://docs.hlquery.com)
+- 🐦 [X (Twitter)](https://x.com/hlquery)
+- 🧪 [Python API GitHub](https://github.com/hlquery/python-api)
+- 📦 [hlquery GitHub](https://github.com/hlquery/hlquery)
 
 ### License
 
