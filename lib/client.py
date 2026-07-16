@@ -204,6 +204,9 @@ class Client:
     def global_search(self, params=None, method="GET"):
         return self.search_api().global_search(params or {}, method)
 
+    def search_all(self, params=None, method="GET"):
+        return self.search_api().search_all(params or {}, method)
+
     def ping(self):
         return self.system_api().ping()
 

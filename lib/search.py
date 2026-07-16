@@ -57,6 +57,10 @@ class Search(Service):
             return self.client.execute_request("POST", "/search", body=params or {})
         return self.client.execute_request("GET", "/search", query_params=params or {})
 
+    def search_all(self, params=None, method="GET"):
+        """Alias for global_search: search a merged result set across collections."""
+        return self.global_search(params or {}, method)
+
     def facets(self, collection_name, params=None, method="GET"):
         return self.client.documents_api().facets(collection_name, params or {}, method)
 

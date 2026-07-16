@@ -126,6 +126,15 @@ We welcome contributions from the community! All contributions must be released 
 - Test and report bugs against the Python client
 - Improve Python-specific documentation and examples
 
+### Search all collections
+
+```python
+result = client.search_all({"q": "research", "limit": 20})
+selected = client.search_all({"q": "research", "collections": ["universities", "science"]}, "POST")
+```
+
+`global_search` remains available as an equivalent name. Results are globally merged and each hit includes `document._collection`.
+
 ### Community
 
 - 📖 [Documentation](https://docs.hlquery.com)
